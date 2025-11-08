@@ -16,62 +16,66 @@ html,body { height:100%; margin:0; padding:0; }
    GLOBAL
    ------------------------ */
 body.main { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#111; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-.wrapper { max-width:1000px; margin:48px auto; padding:36px; display:flex; flex-direction:column; gap:28px; align-items:center; }
+.wrapper { max-width:1000px; margin:48px auto; padding:36px; display:flex; flex-direction:column; gap:28px; align-items:center; position:relative; z-index:2; }
 
 /* ------------------------
-   TOP NAV / STARS BG
+   TOP NAV - centered only
    ------------------------ */
-.topbar { position:sticky; top:0; z-index:20; backdrop-filter: blur(4px); background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.75)); border-bottom:1px solid rgba(16,24,48,0.04); }
-.nav { display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:1000px; margin:0 auto; padding:12px 20px; }
-.nav-logo { font-weight:700; color:var(--accent); text-decoration:none; }
-.nav-links a { margin-left:16px; text-decoration:none; color:var(--muted); font-weight:600; }
-.nav-links a:hover { color:var(--accent); }
+.topbar { position:sticky; top:0; z-index:20; background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.9)); border-bottom:1px solid rgba(16,24,48,0.04); }
+.nav { display:flex; align-items:center; justify-content:center; gap:12px; max-width:1000px; margin:0 auto; padding:12px 20px; }
+.nav-links.centered { display:flex; gap:18px; }
+.nav-links.centered a { text-decoration:none; color:var(--muted); font-weight:700; padding:8px 10px; border-radius:8px; }
+.nav-links.centered a:hover { color:var(--accent); background: rgba(11,61,145,0.04); }
 
-/* decorative gold stars on the sides using pseudo background */
-body.main::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(207,166,74,0.95) 0 2px, transparent 2px),
-    radial-gradient(circle at 80% 10%, rgba(207,166,74,0.9) 0 1.8px, transparent 2px),
-    radial-gradient(circle at 40% 85%, rgba(207,166,74,0.85) 0 1.5px, transparent 2px),
-    radial-gradient(circle at 85% 75%, rgba(207,166,74,0.8) 0 2px, transparent 2px);
-  background-repeat: no-repeat;
-  opacity:0.35;
-  pointer-events:none;
-  mix-blend-mode: normal;
+/* ------------------------
+   STARS BACKDROP
+   JS generates .star elements inside #stars-root
+   ------------------------ */
+#stars-root { position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+
+/* star base */
+.star {
+  position:absolute;
+  border-radius:50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,244,200,1) 0 30%, rgba(207,166,74,0.9) 31% 60%, rgba(207,166,74,0.55) 61% 100%);
+  opacity:0.95;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  box-shadow: 0 0 6px rgba(207,166,74,0.18);
+}
+
+/* subtle float animation */
+@keyframes floatTiny {
+  0% { transform: translateY(0) scale(1); opacity:0.95; }
+  50% { transform: translateY(-6px) scale(1.03); opacity:0.98; }
+  100% { transform: translateY(0) scale(1); opacity:0.95; }
 }
 
 /* ------------------------
    HERO / BIG TIMER
    ------------------------ */
-.hero { width:100%; display:flex; align-items:center; justify-content:center; padding:28px 0 6px 0; }
+.hero { width:100%; display:flex; align-items:center; justify-content:center; padding:28px 0 6px 0; z-index:2; }
 .hero-inner { text-align:center; width:100%; }
 
 .timer-large { display:flex; gap:28px; align-items:center; justify-content:center; flex-wrap:wrap; }
 .time-col { min-width:120px; text-align:center; }
-.time-val { font-size:4.8rem; font-weight:800; color:var(--accent); line-height:1; }
+.time-val { font-size:5rem; font-weight:800; color:var(--accent); line-height:1; }
 .time-label { font-size:0.95rem; color:var(--muted); margin-top:8px; }
+.hero-sub { margin-top:12px; color:var(--muted); }
 
 /* ------------------------
    INFO CARD
    ------------------------ */
-.info-card { width:100%; background:var(--card-bg); border-radius:12px; padding:28px; box-shadow:0 10px 30px var(--shadow); color:#222; }
+.info-card { width:100%; background:var(--card-bg); border-radius:12px; padding:28px; box-shadow:0 10px 30px var(--shadow); color:#222; position:relative; z-index:2; }
 .info-card h2 { margin-top:0; color:var(--accent); }
-.info-card p, .info-card li { color:#333; line-height:1.5; }
+.info-card p, .info-card li { color:#333; line-height:1.6; }
 
 /* CTA BUTTONS */
-.cta-row { display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
-.btn { padding:10px 16px; border-radius:8px; text-decoration:none; display:inline-block; font-weight:600; }
+.long-cta { display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
+.btn { padding:10px 16px; border-radius:8px; text-decoration:none; display:inline-block; font-weight:700; }
 .btn-primary { background:var(--accent); color:#fff; }
 .btn-ghost { border:1px solid var(--gold); color:var(--gold); background:transparent; }
 .btn-light { background:#f6f8fb; color:var(--accent); border:1px solid rgba(11,61,145,0.06); }
-
-/* ------------------------
-   FOOTER
-   ------------------------ */
-.site-footer { font-size:0.9rem; color:#666; text-align:center; margin-top:6px; }
 
 /* ------------------------
    INDEX / GATE STYLES (dark)
@@ -95,11 +99,16 @@ body.main::before{
 .hint { font-size:0.9rem; color:#888; margin-top:10px; }
 
 /* ------------------------
+   FOOTER
+   ------------------------ */
+.site-footer { font-size:0.9rem; color:#666; text-align:center; margin-top:6px; }
+
+/* ------------------------
    RESPONSIVE
    ------------------------ */
 @media (max-width:700px){
   .time-val { font-size:3rem; }
   .time-col { min-width:72px; }
-  .nav-links a { margin-left:10px; font-size:0.95rem; }
+  .nav-links.centered a { margin-left:8px; font-size:0.95rem; }
   .wrapper { padding:20px; margin:12px; }
 }
