@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Accesso riservato</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="black-bg">
+  <main class="center-vert wrapper" style="min-height:70vh;">
+    <div class="gate dark">
+      <h1 class="mono big">Accesso riservato</h1>
+      <p class="mono subtitle">Area riservata agli invitati</p>
+
+      <div class="input-row">
+        <input id="passwordInput" type="password" placeholder="Inserisci la password" aria-label="password" />
+        <button id="submitBtn" class="button-ghost">Entra</button>
+      </div>
+
+      <p id="errorMessage" class="error" role="status" aria-live="polite"></p>
+      <p class="hint">Per informazioni: contattami.</p>
+    </div>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>

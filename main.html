@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invito Privato — Marco Viola</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Stars config e script -->
+  <script src="stars-config.js"></script>
+  <script src="stars.js"></script>
+
+  <script src="main.js" defer></script>
+</head>
+<body class="main">
+  <!-- stelle (sempre dietro) -->
+  <div id="stars-root" aria-hidden="true"></div>
+
+  <!-- Pulsanti top (solo qui) -->
+  <nav class="top-buttons" role="navigation" aria-label="Navigazione principale">
+    <a href="dresscode.html" class="top-btn">Dress Code</a>
+    <a href="arrive.html" class="top-btn">Come Arrivare</a>
+    <a href="gift.html" class="top-btn">Consiglio Regalo</a>
+  </nav>
+
+  <main class="wrapper" id="mainContent" role="main">
+    <div style="height:150px;"></div>
+
+    <section class="hero">
+      <h1 class="site-title">Invito Privato</h1>
+
+      <div class="timer-large" id="countdownLarge" aria-live="polite" role="timer">
+        <div class="time-col">
+          <div class="time-val" id="days">--</div>
+          <div class="time-label">Giorni</div>
+        </div>
+        <div class="time-col">
+          <div class="time-val" id="hours">--</div>
+          <div class="time-label">Ore</div>
+        </div>
+        <div class="time-col">
+          <div class="time-val" id="minutes">--</div>
+          <div class="time-label">Minuti</div>
+        </div>
+        <div class="time-col">
+          <div class="time-val" id="seconds">--</div>
+          <div class="time-label">Secondi</div>
+        </div>
+      </div>
+
+      <!-- Nota: la data non è mostrata vicino al timer per scelta estetica -->
+      <div id="eventMessage" class="event-message" style="display:none;"></div>
+    </section>
+
+    <div style="height:400px;"></div>
+
+    <!-- Isola 1: dettagli evento -->
+    <section class="info-card">
+      <h2>Dettagli dell'evento</h2>
+      <p>
+        Il giorno scelto è il <strong>29 Novembre 2025</strong>. L'inizio è previsto per le ore <strong>20:00</strong>.
+      </p>
+
+      <h3>Descrizione della serata</h3>
+      <p>
+        Una serata raccolta e curata: illuminazione soffusa, allestimenti essenziali con accenti dorati e blu,
+        cura dei dettagli e un’atmosfera pensata per favorire conversazioni piacevoli e rilassate.
+      </p>
+    </section>
+
+    <!-- Isola 2: programma -->
+    <section class="info-card">
+      <h2>Programma (ordine indicativo)</h2>
+      <ol>
+        <li>Arrivo</li>
+        <li>Piccolo aperitivo</li>
+        <li>Inizio cena</li>
+        <li>Proseguimento informale della serata</li>
+      </ol>
+    </section>
+
+    <!-- Isola 3: note pratiche -->
+    <section class="info-card">
+      <h2>Note pratiche</h2>
+      <p>
+        Per esigenze alimentari o richieste particolari, ti prego di contattarmi in anticipo. Il parcheggio privato della struttura è a disposizione degli ospiti.
+      </p>
+    </section>
+
+    <!-- spazio extra per scroll -->
+    <div style="height:260px;"></div>
+
+    <footer class="site-footer">
+      Per qualsiasi informazione: contattami.
+    </footer>
+  </main>
+</body>
+</html>
