@@ -101,13 +101,14 @@ p, li {
   font-weight: 700;
   border: 2px solid var(--gold-strong);
   box-shadow: 0 8px 20px rgba(11,61,145,0.12);
-  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease, background .18s ease;
+  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease;
 }
 
 /* hover blu -> testo dorato */
 .top-buttons .top-btn:hover {
   transform: translateY(-4px) scale(1.02);
   color: var(--gold-strong);
+  /* gradient statico, non animato per evitare brillo */
   background: linear-gradient(90deg, rgba(11,61,145,0.95), rgba(11,61,145,0.92));
   box-shadow: 0 20px 50px rgba(11,61,145,0.18);
 }
@@ -126,13 +127,14 @@ p, li {
   font-weight: 800;
   border: 2px solid rgba(11,61,145,0.95);
   box-shadow: 0 10px 30px rgba(207,166,74,0.14);
-  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease, background .18s ease;
+  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease;
 }
 
 /* hover centrale: testo blu (elegante) */
 .top-buttons .top-btn-center:hover {
   transform: translateY(-4px) scale(1.02);
   color: var(--accent);
+  /* gradient statico, non animato per evitare brillo */
   background: linear-gradient(180deg, rgba(210,173,63,0.98), rgba(207,166,74,0.92));
   box-shadow: 0 22px 60px rgba(11,61,145,0.12);
 }
