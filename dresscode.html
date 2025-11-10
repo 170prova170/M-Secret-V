@@ -13,6 +13,16 @@
   <script src="main.js" defer></script>
 </head>
 <body class="main">
+<script>
+  // Controllo accesso
+  const expiry = parseInt(localStorage.getItem('invited_expiry'), 10);
+
+  if (!expiry || Date.now() > expiry) {
+      // accesso scaduto o inesistente -> torna al login
+      window.location.href = 'index.html';
+  }
+</script>
+
   <div id="stars-root" aria-hidden="true"></div>
 
   <nav class="top-buttons" role="navigation" aria-label="Navigazione principale">
@@ -31,7 +41,7 @@
       <h2>Elegante e comodo</h2>
       <p>
         Consigliamo un look curato ma confortevole: linee pulite, tessuti di qualità, colori sobri e dettagli minimali.
-        L’obiettivo è apparire ordinati senza rinunciare al comfort.
+        L'obiettivo è apparire ordinati senza rinunciare al comfort.
       </p>
 
       <h3>Esempi (indicativi)</h3>
@@ -42,7 +52,7 @@
       </ul>
 
       <h3>Nota meteo</h3>
-      <p>All’esterno potrà fare fresco: porta un capo esterno adatto anche se la serata si svolgerà prevalentemente al chiuso.</p>
+      <p>All'esterno potrà fare fresco: porta un capo esterno adatto anche se la serata si svolgerà prevalentemente al chiuso.</p>
     </section>
 
     <div style="height:120px;"></div>
