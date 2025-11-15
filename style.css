@@ -1,0 +1,469 @@
+/* style.css - file completo definitivo (aggiornato per modalità reduce-motion / mobile) 
+   - Font: Playfair Display per titoli, Roboto Mono per numeri
+   - Stelle posizionate dietro (#stars-root)
+   - Top buttons: blu standard con bordo dorato; bottone centrale dorato per le sotto-pagine
+   - Info-card: "isolette" opache, leggerissimo giallo sull'bianco
+   - Login page (index.html) rimane nera
+*/
+
+/* ---------------------------
+   IMPORT FONT
+   --------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+
+/* ---------------------------
+   RESET / BASE
+   --------------------------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; padding: 0; }
+img { max-width:100%; display:block; }
+a { color: inherit; -webkit-tap-highlight-color: transparent; }
+
+/* ---------------------------
+   VARIABILI COLORI
+   --------------------------- */
+:root {
+  --bg: #ffffff;
+  --accent: #0b3d91;        /* blu elegante */
+  --gold: #cfa64a;          /* dorato chiaro */
+  --gold-strong: #d2ad3f;   /* dorato più ricco per sfumature */
+  --muted: #5b6570;
+  --card-bg: #fffaf4;       /* leggerissimo giallo sul bianco per isole */
+  --shadow: rgba(11,61,145,0.08);
+  --text: #111827;
+
+  /* performance-friendly fallbacks */
+  --shadow-light: rgba(11,61,145,0.06);
+  --shadow-none: rgba(0,0,0,0.00);
+}
+
+/* ---------------------------
+   TIPOGRAFIA
+   --------------------------- */
+body.main {
+  font-family: "Playfair Display", Georgia, serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--accent);
+  margin: 0 0 10px 0;
+}
+
+p, li {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #222;
+  margin: 0 0 12px 0;
+}
+
+/* ---------------------------
+   LAYOUT PRINCIPALE
+   --------------------------- */
+.wrapper {
+  max-width: 1100px;
+  margin: 48px auto;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  align-items: center;
+  position: relative;
+  z-index: 30; /* sopra le stelle */
+}
+
+/* ---------------------------
+   TOP NAV - bottoni centrati
+   --------------------------- */
+.top-buttons {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  z-index: 160;
+  align-items: center;
+  pointer-events: auto;
+}
+
+/* bottone blu standard (testo bianco, bordo dorato) */
+.top-buttons .top-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  border: 2px solid var(--gold-strong);
+  box-shadow: 0 8px 20px rgba(11,61,145,0.12);
+  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease;
+}
+
+/* hover blu -> testo dorato */
+.top-buttons .top-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  color: var(--gold-strong);
+  /* gradient statico, non animato per evitare brillo */
+  background: linear-gradient(90deg, rgba(11,61,145,0.95), rgba(11,61,145,0.92));
+  box-shadow: 0 20px 50px rgba(11,61,145,0.18);
+}
+
+/* bottone centrale (usato nelle sotto-pagine): dorato, testo bianco; hover -> testo blu */
+.top-buttons .top-btn-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--gold-strong), var(--gold));
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  border: 2px solid rgba(11,61,145,0.95);
+  box-shadow: 0 10px 30px rgba(207,166,74,0.14);
+  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease;
+}
+
+/* hover centrale: testo blu (elegante) */
+.top-buttons .top-btn-center:hover {
+  transform: translateY(-4px) scale(1.02);
+  color: var(--accent);
+  /* gradient statico, non animato per evitare brillo */
+  background: linear-gradient(180deg, rgba(210,173,63,0.98), rgba(207,166,74,0.92));
+  box-shadow: 0 22px 60px rgba(11,61,145,0.12);
+}
+
+/* ---------------------------
+   HERO / TIMER
+   --------------------------- */
+.hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px 24px 20px;
+  z-index: 30;
+  text-align: center;
+  position: relative;
+}
+
+.site-title {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Timer grande */
+.timer-large {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  z-index: 30;
+}
+.time-col { min-width: 120px; text-align: center; }
+.time-val {
+  font-size: 7rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: "tnum";
+  -webkit-font-feature-settings: "tnum";
+}
+@media (max-width: 900px){ .time-val { font-size: 3.8rem; } }
+.time-label { font-size: 1rem; color: var(--muted); margin-top: 8px; }
+
+/* messaggi stato evento (inizio / fine) */
+.event-message {
+  margin-top: 18px;
+  padding: 18px 22px;
+  background: linear-gradient(180deg, rgba(11,61,145,0.06), rgba(11,61,145,0.03));
+  border-radius: 12px;
+  box-shadow: 0 18px 40px rgba(11,61,145,0.06);
+  color: var(--accent);
+  font-weight: 700;
+  text-align: center;
+  z-index: 30;
+}
+
+/* ---------------------------
+   ISOLETTE / INFO-CARD (opache, leggero giallo)
+   --------------------------- */
+.info-card {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 30px 60px var(--shadow);
+  color: #222;
+  position: relative;
+  z-index: 30;
+  border: 1px solid rgba(11,61,145,0.03);
+}
+
+/* titoli dentro le card */
+.info-card h2 { margin-top: 0; color: var(--accent); font-size: 1.6rem; }
+.info-card p, .info-card li { color: #333; line-height: 1.6; font-size: 1.05rem; }
+
+/* ---------------------------
+   BOTTONI GENERALI
+   --------------------------- */
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 700;
+  transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease, color .16s ease;
+}
+
+/* bottoni usati internamente (se presenti) */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+}
+.btn-light {
+  background: #f6f8fb;
+  color: var(--accent);
+  border: 1px solid rgba(11,61,145,0.06);
+}
+.btn-ghost {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+
+/* Bottone "Torna all'home" (usato come .btn-home quando necessario)
+   - sfondo dorato, testo bianco; al hover testo blu */
+.btn-home {
+  background: linear-gradient(180deg, var(--gold-strong), var(--gold));
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.06);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 800;
+  transition: transform .18s cubic-bezier(.2,.9,.3,1), color .18s ease, box-shadow .18s ease;
+  box-shadow: 0 10px 30px rgba(207,166,74,0.14);
+}
+.btn-home:hover {
+  transform: translateY(-4px) scale(1.02);
+  color: var(--accent);
+  box-shadow: 0 22px 60px rgba(11,61,145,0.12);
+}
+
+/* ---------------------------
+   STARS (sfondo) - sempre dietro
+   --------------------------- */
+#stars-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* sotto tutto */
+  overflow: hidden;
+}
+
+/* wrapper stella */
+.star-wrapper {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  transform-origin: center center;
+  z-index: 0;
+  will-change: transform, opacity, filter;
+}
+
+/* glow (div dietro la stella) */
+.star-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+/* svg star */
+.svg-star {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* keyframes twinkle & glow */
+@keyframes stars-twinkle {
+  0% { transform: translate(-50%,-50%) rotate(var(--rot)) translateY(0) scale(1); opacity:0.82; filter: saturate(0.98) blur(0px); }
+  50% { transform: translate(-50%,-50%) rotate(var(--rot)) translateY(calc(-1 * var(--tw))) scale(1.06); opacity:1; filter: saturate(1.06) blur(0.3px); }
+  100% { transform: translate(-50%,-50%) rotate(var(--rot)) translateY(0) scale(1); opacity:0.82; filter: saturate(0.98) blur(0px); }
+}
+@keyframes stars-glow {
+  0% { opacity: 0.0; transform: translate(-50%,-50%) scale(0.86); filter: blur(3px) saturate(0.9); }
+  50% { opacity: 1.0; transform: translate(-50%,-50%) scale(1); filter: blur(6px) saturate(1.1); }
+  100% { opacity: 0.0; transform: translate(-50%,-50%) scale(0.86); filter: blur(3px) saturate(0.9); }
+}
+
+/* ---------------------------
+   PAGINA LOGIN (index.html) - sfondo nero
+   --------------------------- */
+.black-bg {
+  background: #000;
+  color: #fff;
+  font-family: 'Courier New', Courier, monospace;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+.center-vert { width:100%; display:flex; align-items:center; justify-content:center; padding:40px; }
+.gate {
+  text-align:center;
+  max-width:560px;
+  width:100%;
+  padding:28px;
+  border-radius:10px;
+  background: rgba(0,0,0,0.75);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+.gate.dark .mono { font-family: 'Courier New', Courier, monospace; color:#fff; }
+.mono { font-family: 'Courier New', Courier, monospace; }
+.big { font-size:1.8rem; margin:0; color:#fff; }
+.subtitle { margin-top:6px; color:#ddd; opacity:0.95; }
+
+.input-row { display:flex; justify-content:center; gap:10px; margin-top:18px; }
+.input-row input {
+  padding:12px 14px;
+  font-size:1rem;
+  background:#111;
+  color:#fff;
+  border:2px solid rgba(255,255,255,0.08);
+  border-radius:8px;
+  outline:none;
+  width:260px;
+  text-align:center;
+}
+.button-ghost {
+  padding:12px 14px;
+  background:transparent;
+  color:#fff;
+  border:2px solid rgba(255,255,255,0.12);
+  border-radius:8px;
+  cursor:pointer;
+}
+.error { color:#ff6b6b; margin-top:12px; font-weight:700; }
+.hint { font-size:0.9rem; color:#bbb; margin-top:10px; }
+
+/* ---------------------------
+   FOOTER
+   --------------------------- */
+.site-footer { font-size:0.9rem; color:#666; text-align:center; margin-top:6px; z-index:30; }
+
+/* ---------------------------
+   REDUCE-MOTION / PERFORMANCE MODE
+   --------------------------- */
+/* attiva questa classe su <body> per forzare modalità a basso impatto:
+   es: <body class="reduce-motion"> */
+body.reduce-motion,
+body.reduce-motion * {
+  transition: none !important;
+  animation: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* nascondi stelle se la classe reduce-motion è presente */
+body.reduce-motion #stars-root {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* nascondi stelle se l’utente ha prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  #stars-root {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* togli glow / blur / filtri pesanti e riduci ombre */
+body.reduce-motion .star-glow { display: none !important; }
+body.reduce-motion .star-wrapper { will-change: auto !important; transform: none !important; opacity: 1 !important; }
+body.reduce-motion .info-card { box-shadow: 0 8px 18px var(--shadow-none); }
+
+/* disabilita transizioni e hover pesanti sui bottoni */
+body.reduce-motion .top-buttons .top-btn,
+body.reduce-motion .top-buttons .top-btn-center,
+body.reduce-motion .btn-home,
+body.reduce-motion .btn {
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+/* riduci ombre generali per prestazioni */
+body.reduce-motion .info-card,
+body.reduce-motion .hero,
+body.reduce-motion .event-message {
+  box-shadow: 0 8px 18px var(--shadow-light);
+  backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* ---------------------------
+   RESPONSIVE
+   --------------------------- */
+@media (max-width: 700px){
+  .time-val { font-size: 3.6rem; }
+  .time-col { min-width: 72px; }
+  .top-buttons { gap: 10px; top: 12px; left: 50%; transform: translateX(-50%); }
+  .wrapper { padding: 20px; margin: 12px; }
+  .info-card { padding: 18px; box-shadow: 0 12px 30px var(--shadow-light); }
+  .site-title { font-size: 1.25rem; }
+
+  /* mobile: riduci ombre e rimuovi filtri costosi */
+  .info-card, .event-message, .hero { box-shadow: 0 12px 26px var(--shadow-light); }
+  .top-buttons .top-btn, .top-buttons .top-btn-center, .btn-home { box-shadow: none; }
+
+  /* performance: se stars.js rende la modalità "mobile-light" o "mobile",
+     alcune proprietà CSS possono essere attenuate qui per coerenza */
+  #stars-root { pointer-events: none; }
+  .star-glow { display: none; } /* glow off on small screens for perf */
+}
+
+/* respect user reduced motion setting (system) */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  #stars-root { display: none !important; opacity: 0 !important; visibility: hidden !important; }
+  .top-buttons .top-btn, .top-buttons .top-btn-center, .btn-home, .btn { transition: none !important; box-shadow: none !important; }
+}
+
+/* small tweak for very small devices */
+@media (max-width: 420px) {
+  .wrapper { padding: 14px; margin: 8px; }
+  .timer-large { gap: 18px; }
+  .time-val { font-size: 2.6rem; }
+  .top-buttons { gap: 8px; top: 10px; }
+}
+
+/* end of file */
