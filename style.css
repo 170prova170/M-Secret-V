@@ -1,4 +1,4 @@
-/* style.css - file completo definitivo (aggiornato per modalità reduce-motion / mobile) 
+/* style.css - file completo definitivo
    - Font: Playfair Display per titoli, Roboto Mono per numeri
    - Stelle posizionate dietro (#stars-root)
    - Top buttons: blu standard con bordo dorato; bottone centrale dorato per le sotto-pagine
@@ -17,7 +17,7 @@
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; }
 img { max-width:100%; display:block; }
-a { color: inherit; -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
 
 /* ---------------------------
    VARIABILI COLORI
@@ -31,10 +31,6 @@ a { color: inherit; -webkit-tap-highlight-color: transparent; }
   --card-bg: #fffaf4;       /* leggerissimo giallo sul bianco per isole */
   --shadow: rgba(11,61,145,0.08);
   --text: #111827;
-
-  /* performance-friendly fallbacks */
-  --shadow-light: rgba(11,61,145,0.06);
-  --shadow-none: rgba(0,0,0,0.00);
 }
 
 /* ---------------------------
@@ -378,59 +374,6 @@ p, li {
 .site-footer { font-size:0.9rem; color:#666; text-align:center; margin-top:6px; z-index:30; }
 
 /* ---------------------------
-   REDUCE-MOTION / PERFORMANCE MODE
-   --------------------------- */
-/* attiva questa classe su <body> per forzare modalità a basso impatto:
-   es: <body class="reduce-motion"> */
-body.reduce-motion,
-body.reduce-motion * {
-  transition: none !important;
-  animation: none !important;
-  scroll-behavior: auto !important;
-}
-
-/* nascondi stelle se la classe reduce-motion è presente */
-body.reduce-motion #stars-root {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-/* nascondi stelle se l’utente ha prefers-reduced-motion */
-@media (prefers-reduced-motion: reduce) {
-  #stars-root {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
-}
-
-/* togli glow / blur / filtri pesanti e riduci ombre */
-body.reduce-motion .star-glow { display: none !important; }
-body.reduce-motion .star-wrapper { will-change: auto !important; transform: none !important; opacity: 1 !important; }
-body.reduce-motion .info-card { box-shadow: 0 8px 18px var(--shadow-none); }
-
-/* disabilita transizioni e hover pesanti sui bottoni */
-body.reduce-motion .top-buttons .top-btn,
-body.reduce-motion .top-buttons .top-btn-center,
-body.reduce-motion .btn-home,
-body.reduce-motion .btn {
-  transition: none !important;
-  box-shadow: none !important;
-}
-
-/* riduci ombre generali per prestazioni */
-body.reduce-motion .info-card,
-body.reduce-motion .hero,
-body.reduce-motion .event-message {
-  box-shadow: 0 8px 18px var(--shadow-light);
-  backdrop-filter: none !important;
-  filter: none !important;
-}
-
-/* ---------------------------
    RESPONSIVE
    --------------------------- */
 @media (max-width: 700px){
@@ -438,32 +381,6 @@ body.reduce-motion .event-message {
   .time-col { min-width: 72px; }
   .top-buttons { gap: 10px; top: 12px; left: 50%; transform: translateX(-50%); }
   .wrapper { padding: 20px; margin: 12px; }
-  .info-card { padding: 18px; box-shadow: 0 12px 30px var(--shadow-light); }
+  .info-card { padding: 18px; }
   .site-title { font-size: 1.25rem; }
-
-  /* mobile: riduci ombre e rimuovi filtri costosi */
-  .info-card, .event-message, .hero { box-shadow: 0 12px 26px var(--shadow-light); }
-  .top-buttons .top-btn, .top-buttons .top-btn-center, .btn-home { box-shadow: none; }
-
-  /* performance: se stars.js rende la modalità "mobile-light" o "mobile",
-     alcune proprietà CSS possono essere attenuate qui per coerenza */
-  #stars-root { pointer-events: none; }
-  .star-glow { display: none; } /* glow off on small screens for perf */
 }
-
-/* respect user reduced motion setting (system) */
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-  #stars-root { display: none !important; opacity: 0 !important; visibility: hidden !important; }
-  .top-buttons .top-btn, .top-buttons .top-btn-center, .btn-home, .btn { transition: none !important; box-shadow: none !important; }
-}
-
-/* small tweak for very small devices */
-@media (max-width: 420px) {
-  .wrapper { padding: 14px; margin: 8px; }
-  .timer-large { gap: 18px; }
-  .time-val { font-size: 2.6rem; }
-  .top-buttons { gap: 8px; top: 10px; }
-}
-
-/* end of file */
