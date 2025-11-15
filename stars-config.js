@@ -16,7 +16,7 @@
  *  - glowStrength: intensità del glow (0.3..2.0)
  */
 window.STARS_CONFIG = {
-  count: 50,
+  count: 20,
   minSize: 6,
   maxSize: 20,
   minInnerRatio: 0.24,
@@ -33,5 +33,6 @@ window.STARS_CONFIG = {
   // Colori e glow
   starColor: "#e6c86a",
   glowColor: "rgba(230,200,110,0.95)",
-  glowStrength: 0.7
+  glowStrength: 0.5
 };
+
