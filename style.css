@@ -4,6 +4,7 @@
    - Top buttons: blu standard con bordo dorato; bottone centrale dorato per le sotto-pagine
    - Info-card: "isolette" opache, leggerissimo giallo sull'bianco
    - Login page (index.html) rimane nera
+   - OTTIMIZZATO PER MOBILE (animazioni leggere)
 */
 
 /* ---------------------------
@@ -282,7 +283,7 @@ p, li {
   pointer-events: none;
   transform-origin: center center;
   z-index: 0;
-  will-change: transform, opacity, filter;
+  /* will-change rimosso o gestito via JS per evitare overload */
 }
 
 /* glow (div dietro la stella) */
@@ -306,16 +307,26 @@ p, li {
   z-index: 2;
 }
 
-/* keyframes twinkle & glow */
+/* keyframes twinkle & glow - OTTIMIZZATI (niente filtri in animazione) */
 @keyframes stars-twinkle {
-  0% { transform: translate(-50%,-50%) rotate(var(--rot)) translateY(0) scale(1); opacity:0.82; filter: saturate(0.98) blur(0px); }
-  50% { transform: translate(-50%,-50%) rotate(var(--rot)) translateY(calc(-1 * var(--tw))) scale(1.06); opacity:1; filter: saturate(1.06) blur(0.3px); }
-  100% { transform: translate(-50%,-50%) rotate(var(--rot)) translateY(0) scale(1); opacity:0.82; filter: saturate(0.98) blur(0px); }
+  0% { 
+    transform: translate(-50%,-50%) rotate(var(--rot)) translateY(0) scale(1); 
+    opacity:0.82; 
+  }
+  50% { 
+    transform: translate(-50%,-50%) rotate(var(--rot)) translateY(calc(-1 * var(--tw))) scale(1.06); 
+    opacity:1; 
+  }
+  100% { 
+    transform: translate(-50%,-50%) rotate(var(--rot)) translateY(0) scale(1); 
+    opacity:0.82; 
+  }
 }
+
 @keyframes stars-glow {
-  0% { opacity: 0.0; transform: translate(-50%,-50%) scale(0.86); filter: blur(3px) saturate(0.9); }
-  50% { opacity: 1.0; transform: translate(-50%,-50%) scale(1); filter: blur(6px) saturate(1.1); }
-  100% { opacity: 0.0; transform: translate(-50%,-50%) scale(0.86); filter: blur(3px) saturate(0.9); }
+  0% { opacity: 0.0; transform: translate(-50%,-50%) scale(0.86); }
+  50% { opacity: 1.0; transform: translate(-50%,-50%) scale(1); }
+  100% { opacity: 0.0; transform: translate(-50%,-50%) scale(0.86); }
 }
 
 /* ---------------------------
