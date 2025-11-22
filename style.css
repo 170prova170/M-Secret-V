@@ -141,7 +141,7 @@ p, li {
 }
 
 /* ---------------------------
-   HERO / TIMER
+   HERO / TIMER (MODIFICATO)
    --------------------------- */
 .hero {
   width: 100%;
@@ -165,14 +165,18 @@ p, li {
 /* Timer grande */
 .timer-large {
   display: flex;
-  gap: 36px;
+  gap: 36px;            /* Spazio tra le colonne su desktop */
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;    /* Di default, tutte le colonne su una riga */
   margin-bottom: 12px;
   z-index: 30;
 }
-.time-col { min-width: 120px; text-align: center; }
+.time-col { 
+  min-width: 120px;     /* Larghezza minima di base per le colonne */
+  text-align: center; 
+  flex-basis: auto;     /* La larghezza è gestita dal min-width di default */
+}
 .time-val {
   font-size: 7rem;
   font-weight: 800;
@@ -183,7 +187,33 @@ p, li {
   -moz-font-feature-settings: "tnum";
   -webkit-font-feature-settings: "tnum";
 }
-@media (max-width: 900px){ .time-val { font-size: 3.8rem; } }
+
+/* Media Query per tablet e smartphone (gruppo 2x2) */
+@media (max-width: 900px){ 
+  .time-val { font-size: 3.8rem; } /* Riduci dimensione font per schermi medi */
+  .timer-large {
+    flex-wrap: wrap;    /* Permette ai blocchi di andare a capo */
+    gap: 24px 18px;     /* Riduce il gap verticale e orizzontale su mobile */
+    max-width: 480px;   /* Limita la larghezza massima del timer per centrarlo meglio se flex-wrap è attivo */
+  }
+  .time-col {
+    min-width: 110px;   /* Riduci min-width per mobile */
+    flex-basis: calc(50% - 12px); /* Due colonne per riga, tenendo conto del gap orizzontale */
+  }
+}
+
+/* Media Query per schermi piccoli (es. smartphone verticali) */
+@media (max-width: 500px){ 
+  .time-val { font-size: 3rem; } /* Riduci ulteriormente la dimensione font */
+  .time-col {
+      min-width: 90px;
+      flex-basis: calc(50% - 12px); /* Mantiene due colonne, adattandosi alla larghezza ridotta */
+  }
+  .timer-large {
+      gap: 18px 10px; /* Riduci ulteriormente il gap su schermi molto piccoli */
+  }
+}
+
 .time-label { font-size: 1rem; color: var(--muted); margin-top: 8px; }
 
 /* messaggi stato evento (inizio / fine) */
@@ -431,3 +461,4 @@ p, li {
   transform: translateY(-3px);
   box-shadow: 0 20px 50px rgba(11,61,145,0.2);
 }
+
