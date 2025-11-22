@@ -1,7 +1,7 @@
 // auth-hash.js - carica auth.json e verifica password con PBKDF2 (Web Crypto)
 (function(){
   const JSON_URL = "auth.json"; // nome e percorso del JSON (stessa cartella)
-  const EXPIRE_MS = 10 * 60 * 1000; // 10 minuti
+  const EXPIRE_MS = 60 * 60 * 1000; // 1 ora (60 minuti * 60 secondi * 1000 millisecondi)
 
   let STORED_SALT = null;
   let STORED_ITERATIONS = null;
