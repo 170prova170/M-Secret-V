@@ -141,7 +141,7 @@ p, li {
 }
 
 /* ---------------------------
-   HERO / TIMER (MODIFICATO CON SPACINGS COMPATTATI)
+   HERO / TIMER (MODIFICATO CON SPACINGS ANCORA PIÙ COMPATTATI)
    --------------------------- */
 .hero {
   width: 100%;
@@ -165,23 +165,20 @@ p, li {
 /* Timer grande */
 .timer-large {
   display: flex;
-  /* Rimuoviamo il gap generico per controllarlo manualmente */
-  /* gap: 36px; */ 
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
   margin-bottom: 12px;
   z-index: 30;
-  /* Aggiungiamo un po' di padding laterale per assicurare spazio sui bordi */
-  padding: 0 10px; 
+  padding: 0 10px; /* Mantieni un po' di padding laterale per respirare */
 }
 /* Spazio specifico tra gli elementi (non usare 'gap' sul container) */
 .time-col:not(:last-child) { /* Applica un margine a destra a tutte le colonne tranne l'ultima */
-    margin-right: 28px; /* Spazio predefinito per desktop (puoi ridurlo ulteriormente se vuoi) */
+    margin-right: 16px; /* <--- RIDOTTO: Spazio interno alle coppie (Giorno-Ore, Minuti-Secondi) */
 }
 /* Spazio aggiuntivo per separare le "coppie" G-H da M-S */
 #hours-col { /* Applica margine destro aggiuntivo al blocco delle Ore */
-    margin-right: 48px; /* Spazio maggiore tra Ore e Minuti su desktop */
+    margin-right: 48px; /* <--- MANTENUTO: Spazio tra le coppie G-H e M-S (desktop) */
 }
 
 
@@ -205,22 +202,20 @@ p, li {
 @media (max-width: 900px){ 
   .time-val { font-size: 3.8rem; } 
   .timer-large {
-    flex-wrap: wrap;    /* Permette ai blocchi di andare a capo */
-    /* Rimuoviamo anche qui il gap generico */
-    /* gap: 24px 18px; */
-    max-width: 480px;   /* Limita la larghezza massima del timer per centrarlo meglio */
-    justify-content: center; /* Centra le coppie */
-    padding: 0; /* Rimuovi padding laterale se c'è un max-width */
+    flex-wrap: wrap;    
+    max-width: 480px;   
+    justify-content: center; 
+    padding: 0; 
   }
   .time-col {
     min-width: 110px;
-    flex-basis: calc(50% - 15px); /* Adatta la larghezza per 2 colonne, tenendo conto del margine */
+    flex-basis: calc(50% - 10px); /* <--- RIDOTTO: Adatta la larghezza per 2 colonne, tenendo conto del margine */
     margin-right: 0; /* Resetta i margini specifici per desktop */
     margin-bottom: 24px; /* Spazio tra le righe (coppia G-H e M-S) */
   }
   /* Margine tra le colonne all'interno della stessa riga (Giorno-Ore, Minuti-Secondi) */
   .time-col:nth-child(even) { /* Ogni seconda colonna (Ore e Secondi) */
-      margin-left: 30px; /* Spazio a sinistra della seconda colonna della coppia */
+      margin-left: 20px; /* <--- RIDOTTO: Spazio a sinistra della seconda colonna della coppia */
   }
   .time-col:nth-child(odd) { /* Ogni prima colonna (Giorno e Minuti) */
       margin-right: 0; /* Assicura che la prima colonna della coppia non abbia margine destro */
@@ -238,11 +233,11 @@ p, li {
   .time-val { font-size: 3rem; } 
   .time-col {
       min-width: 90px;
-      flex-basis: calc(50% - 15px); /* Mantiene due colonne, adattandosi alla larghezza ridotta */
+      flex-basis: calc(50% - 10px); /* <--- RIDOTTO: Mantiene due colonne, adattandosi alla larghezza ridotta */
       margin-bottom: 18px; /* Spazio tra le righe su schermi molto piccoli */
   }
   .time-col:nth-child(even) { /* Ogni seconda colonna (Ore e Secondi) */
-      margin-left: 20px; /* Spazio a sinistra della seconda colonna della coppia, ancora più ridotto */
+      margin-left: 12px; /* <--- RIDOTTO: Spazio a sinistra della seconda colonna della coppia, ancora più ridotto */
   }
 }
 
@@ -493,6 +488,7 @@ p, li {
   transform: translateY(-3px);
   box-shadow: 0 20px 50px rgba(11,61,145,0.2);
 }
+
 
 
 
