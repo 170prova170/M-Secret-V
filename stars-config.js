@@ -3,20 +3,16 @@
  * ----------------
  * Configurazione principale per le stelle.
  * Includi questo file PRIMA di stars.js.
- *
- * Parametri principali (modifica liberamente):
- *  - count: numero stelle base
- *  - minSize / maxSize: raggio esterno in pixel
- *  - minInnerRatio / maxInnerRatio: concentricità interna (più piccolo = punte più sottili)
- *  - spacingMultiplier: distanza minima (moltiplicatore)
- *  - minDuration / maxDuration: velocità twinkle (s)
- *  - brightenProb: probabilità glow intenso
- *  - starColor: colore punte (hex)
- *  - glowColor: colore alone (rgba/hex)
- *  - glowStrength: intensità del glow (0.3..2.0)
  */
 window.STARS_CONFIG = {
-  count: 20,
+  // Conteggio base (Desktop)
+  count: 50,
+
+  // --- OTTIMIZZAZIONE MOBILE ---
+  // Sotto i 768px usiamo meno stelle per non appesantire il processore
+  mobileBreakpoint: 768, 
+  mobileCount: 25,       
+
   minSize: 6,
   maxSize: 20,
   minInnerRatio: 0.24,
@@ -33,6 +29,5 @@ window.STARS_CONFIG = {
   // Colori e glow
   starColor: "#e6c86a",
   glowColor: "rgba(230,200,110,0.95)",
-  glowStrength: 0.5
+  glowStrength: 0.7
 };
-
