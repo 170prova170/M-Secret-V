@@ -141,7 +141,7 @@ p, li {
 }
 
 /* ---------------------------
-   HERO / TIMER (REVISIONE COMPLETA - APPROCCIO GRID PER MOBILE)
+   HERO / TIMER (REVISIONE COMPLETA - FLEXBOX MONORIGA ADATTIVO)
    --------------------------- */
 .hero {
   width: 100%;
@@ -162,28 +162,33 @@ p, li {
   font-weight: 700;
 }
 
-/* --- LAYOUT DESKTOP (DEFAULT) --- */
+/* --- LAYOUT MONORIGA ADATTIVO --- */
 .timer-large {
-  display: flex; /* Flexbox per desktop: 4 elementi in riga */
-  gap: 36px; /* Spazio uniforme tra gli elementi su desktop */
+  display: flex; /* Flexbox per tutti i dispositivi: 4 elementi in riga */
+  gap: 20px; /* <--- Spazio uniforme e adattivo tra gli elementi */
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap; /* Tutti sulla stessa riga */
+  flex-wrap: nowrap; /* Forza tutti gli elementi sulla stessa riga */
   margin-bottom: 12px;
   z-index: 30;
   padding: 0 10px; /* Piccolo padding per evitare che tocchi i bordi */
-  /* Resetting margin-right for desktop if it was set for mobile */
-  margin-left: 0 !important; /* Forza il reset di eventuali margini residui da mobile */
-  margin-right: 0 !important; /* Forza il reset di eventuali margini residui da mobile */
+  /* Assicurati che non ci siano margini residui da precedenti tentativi */
+  margin-left: 0 !important; 
+  margin-right: 0 !important;
 }
 
 .time-col { 
-  min-width: 120px; /* Larghezza minima per le colonne desktop */
+  /* Non impostare min-width fissi qui, li gestiremo con flex-grow/shrink e font-size */
   text-align: center; 
-  flex-basis: auto; 
+  flex: 1 1 auto; /* Permette a ogni colonna di crescere e restringersi in base allo spazio */
+  /* Reset di eventuali margini specifici per ID/nth-child */
+  margin-right: 0 !important; 
+  margin-left: 0 !important;
+  margin-bottom: 0 !important;
 }
 .time-val {
-  font-size: 7rem;
+  /* Dimensionamento del font basato su viewport units per adattarsi fluidamente */
+  font-size: clamp(2.5rem, 8vw, 7rem); /* <--- Magic! Da 2.5rem su mobile a 7rem su desktop */
   font-weight: 800;
   color: var(--accent);
   line-height: 1;
@@ -193,39 +198,14 @@ p, li {
   -webkit-font-feature-settings: "tnum";
 }
 
-/* --- LAYOUT MOBILE (GRID 2x2) --- */
-@media (max-width: 900px) { 
-  .time-val { font-size: 3.8rem; } /* Riduci dimensione font per schermi medi */
-  .timer-large {
-    display: grid; /* <--- CAMBIO APPROCCIO: Usa CSS Grid per un controllo totale */
-    grid-template-columns: 1fr 1fr; /* Due colonne di larghezza uguale */
-    grid-template-rows: auto auto; /* Due righe, altezza automatica */
-    gap: 20px 20px; /* Spazio tra righe e colonne su mobile (verticale / orizzontale) */
-    max-width: 380px; /* Limita la larghezza massima per mantenere compatto il 2x2 */
-    margin-left: auto; /* Centra la griglia */
-    margin-right: auto; /* Centra la griglia */
-    padding: 0; /* Rimuovi padding laterale se c'è un max-width */
-  }
-  .time-col {
-    min-width: auto; /* Lascia che la griglia gestisca la larghezza */
-    flex-basis: auto; /* Resetta flex-basis */
-    /* Resetta tutti i margini che avevamo usato prima per flexbox */
-    margin-right: 0 !important; 
-    margin-left: 0 !important;
-    margin-bottom: 0 !important;
-  }
-}
+/* Rimuovi tutte le @media queries specifiche per il layout del timer-large */
+/* Il layout e la dimensione del font ora si adattano automaticamente */
 
-/* Media Query per schermi piccoli (es. smartphone verticali) */
-@media (max-width: 500px){ 
-  .time-val { font-size: 3rem; } /* Riduci ulteriormente la dimensione font */
-  .timer-large {
-    gap: 15px 15px; /* Riduci leggermente il gap su schermi molto piccoli */
-    max-width: 300px; /* Ancora più compatto su schermi piccoli */
-  }
+.time-label { 
+  font-size: clamp(0.8rem, 2.5vw, 1rem); /* <--- Adatta anche la label */
+  color: var(--muted); 
+  margin-top: 8px; 
 }
-
-.time-label { font-size: 1rem; color: var(--muted); margin-top: 8px; }
 
 /* messaggi stato evento (inizio / fine) */
 .event-message {
@@ -472,6 +452,7 @@ p, li {
   transform: translateY(-3px);
   box-shadow: 0 20px 50px rgba(11,61,145,0.2);
 }
+
 
 
 
