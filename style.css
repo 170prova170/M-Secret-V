@@ -141,7 +141,7 @@ p, li {
 }
 
 /* ---------------------------
-   HERO / TIMER (MODIFICATO PER PIÙ UNIONE E CENTRATURA)
+   HERO / TIMER (MODIFICATO CON SPACINGS COMPATTATI)
    --------------------------- */
 .hero {
   width: 100%;
@@ -165,19 +165,30 @@ p, li {
 /* Timer grande */
 .timer-large {
   display: flex;
-  gap: 36px;            /* Spazio tra le colonne su desktop */
+  /* Rimuoviamo il gap generico per controllarlo manualmente */
+  /* gap: 36px; */ 
   align-items: center;
   justify-content: center;
-  flex-wrap: nowrap;    /* Di default, tutte le colonne su una riga */
+  flex-wrap: nowrap;
   margin-bottom: 12px;
   z-index: 30;
-  /* Aggiunto: Limita la larghezza massima per desktop, per evitare che i singoli blocchi si allontanino troppo su schermi ultrawide */
-  max-width: 1100px; 
+  /* Aggiungiamo un po' di padding laterale per assicurare spazio sui bordi */
+  padding: 0 10px; 
 }
+/* Spazio specifico tra gli elementi (non usare 'gap' sul container) */
+.time-col:not(:last-child) { /* Applica un margine a destra a tutte le colonne tranne l'ultima */
+    margin-right: 28px; /* Spazio predefinito per desktop (puoi ridurlo ulteriormente se vuoi) */
+}
+/* Spazio aggiuntivo per separare le "coppie" G-H da M-S */
+#hours-col { /* Applica margine destro aggiuntivo al blocco delle Ore */
+    margin-right: 48px; /* Spazio maggiore tra Ore e Minuti su desktop */
+}
+
+
 .time-col { 
-  min-width: 120px;     /* Larghezza minima di base per le colonne */
+  min-width: 120px;
   text-align: center; 
-  flex-basis: auto;     /* La larghezza è gestita dal min-width di default */
+  flex-basis: auto; 
 }
 .time-val {
   font-size: 7rem;
@@ -195,30 +206,43 @@ p, li {
   .time-val { font-size: 3.8rem; } 
   .timer-large {
     flex-wrap: wrap;    /* Permette ai blocchi di andare a capo */
-    gap: 18px 12px;     /* *** RIDOTTO IL GAP: 18px verticale, 12px orizzontale *** */
-    /* Aggiunto: Limita la larghezza massima del contenitore timer-large 
-       su mobile per mantenere le coppie più unite e il blocco centrato.
-       Questo valore può essere tweaked se necessario (es. 400px o 360px) */
-    max-width: 440px;   
+    /* Rimuoviamo anche qui il gap generico */
+    /* gap: 24px 18px; */
+    max-width: 480px;   /* Limita la larghezza massima del timer per centrarlo meglio */
+    justify-content: center; /* Centra le coppie */
+    padding: 0; /* Rimuovi padding laterale se c'è un max-width */
   }
   .time-col {
-    /* min-width: 110px; Rimosso per dare più libertà al flex-basis */
-    /* *** MODIFICATO flex-basis per tenere conto del gap ridotto *** */
-    flex-basis: calc(50% - 6px); /* 50% della larghezza meno la metà del gap orizzontale (12px/2) */
+    min-width: 110px;
+    flex-basis: calc(50% - 15px); /* Adatta la larghezza per 2 colonne, tenendo conto del margine */
+    margin-right: 0; /* Resetta i margini specifici per desktop */
+    margin-bottom: 24px; /* Spazio tra le righe (coppia G-H e M-S) */
+  }
+  /* Margine tra le colonne all'interno della stessa riga (Giorno-Ore, Minuti-Secondi) */
+  .time-col:nth-child(even) { /* Ogni seconda colonna (Ore e Secondi) */
+      margin-left: 30px; /* Spazio a sinistra della seconda colonna della coppia */
+  }
+  .time-col:nth-child(odd) { /* Ogni prima colonna (Giorno e Minuti) */
+      margin-right: 0; /* Assicura che la prima colonna della coppia non abbia margine destro */
+  }
+
+  /* Rimuovi il margine inferiore dall'ultima riga di colonne su mobile */
+  .timer-large .time-col:nth-last-child(1),
+  .timer-large .time-col:nth-last-child(2) {
+      margin-bottom: 0;
   }
 }
 
 /* Media Query per schermi piccoli (es. smartphone verticali) */
 @media (max-width: 500px){ 
-  .time-val { font-size: 3rem; }
-  .timer-large {
-    gap: 12px 8px; /* *** RIDOTTO ULTERIORMENTE IL GAP *** */
-    max-width: 360px; /* Limita la larghezza massima per schermi molto piccoli */
-  }
+  .time-val { font-size: 3rem; } 
   .time-col {
-      /* min-width: 90px; Rimosso anche qui */
-      /* *** MODIFICATO flex-basis per il gap ridotto *** */
-      flex-basis: calc(50% - 4px); /* 50% della larghezza meno la metà del gap orizzontale (8px/2) */
+      min-width: 90px;
+      flex-basis: calc(50% - 15px); /* Mantiene due colonne, adattandosi alla larghezza ridotta */
+      margin-bottom: 18px; /* Spazio tra le righe su schermi molto piccoli */
+  }
+  .time-col:nth-child(even) { /* Ogni seconda colonna (Ore e Secondi) */
+      margin-left: 20px; /* Spazio a sinistra della seconda colonna della coppia, ancora più ridotto */
   }
 }
 
@@ -469,5 +493,6 @@ p, li {
   transform: translateY(-3px);
   box-shadow: 0 20px 50px rgba(11,61,145,0.2);
 }
+
 
 
