@@ -20,8 +20,8 @@ window.STARS_CONFIG = {
   spacingMultiplier: 1.9,
   minDuration: 6,
   maxDuration: 12,
-  minOpacity: 0.53,
-  maxOpacity: 0.72,
+  minOpacity: 0.72,
+  maxOpacity: 1,
   brightenProb: 0.18,
   responsiveCount: true,
   debug: false,
@@ -29,7 +29,8 @@ window.STARS_CONFIG = {
   // Colori e glow
   starColor: "#e6c86a",
   glowColor: "rgba(230,200,110,0.95)",
-  glowStrength: 0.7
+  glowStrength: 0.4
 };
+
 
 
