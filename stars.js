@@ -1,4 +1,4 @@
-/* stars.js v2.3 - definitivo (usa stars-config.js se presente) */
+/* stars.js v3.0 - Optimized for Mobile Performance */
 (function() {
 
   function rand(min, max) {
@@ -11,6 +11,8 @@
 
   const DEFAULTS = {
     count: 45,
+    mobileBreakpoint: 768,
+    mobileCount: 20,
     minSize: 6,
     maxSize: 18,
     minInnerRatio: 0.26,
@@ -31,7 +33,14 @@
   const initialCfg = (typeof window !== 'undefined' && window.STARS_CONFIG) ? window.STARS_CONFIG : {};
   let cfg = Object.assign({}, DEFAULTS, initialCfg);
 
+  // Rilevamento mobile semplice basato sulla larghezza
+  function isMobile() {
+    return window.innerWidth <= cfg.mobileBreakpoint;
+  }
+
   function ensureDefs(root) {
+    // Se siamo su mobile, NON creiamo i filtri SVG (troppo pesanti per la GPU mobile)
+    if (isMobile()) return;
     if (root.querySelector('svg[data-stars-defs]')) return;
 
     const xmlns = "http://www.w3.org/2000/svg";
@@ -84,6 +93,8 @@
     svg.setAttribute("width", size);
     svg.setAttribute("height", size);
     svg.classList.add("svg-star");
+    // Hardware acceleration hint
+    svg.style.transform = "translateZ(0)";
 
     const pts = [];
     for (let k = 0; k < 8; k++) {
@@ -99,7 +110,11 @@
     poly.setAttribute("fill", color || cfg.starColor);
     poly.setAttribute("stroke", "rgba(255,255,255,0.06)");
     poly.setAttribute("stroke-width", Math.max(0.35, R * 0.04));
-    if (glow) poly.setAttribute("filter", "url(#starGlow)");
+    
+    // Applica il filtro SVG solo se NON è mobile e se il glow è attivo
+    if (glow && !isMobile()) {
+        poly.setAttribute("filter", "url(#starGlow)");
+    }
 
     svg.appendChild(poly);
     return svg;
@@ -119,22 +134,36 @@
 
     const negDelay = -rand(0, duration);
     wrap.style.animation = `stars-twinkle ${duration}s ease-in-out ${negDelay}s infinite`;
-    wrap.style.willChange = "transform, opacity, filter";
+    // Hint per il browser: ottimizza rendering
+    wrap.style.willChange = "transform, opacity"; 
 
     const glowDiv = document.createElement('div');
     glowDiv.className = 'star-glow';
     const glowScaleFactor = (cfg.glowStrength && !isNaN(cfg.glowStrength)) ? clamp(cfg.glowStrength, 0.2, 2.0) : 1.0;
     const glowSize = Math.max(Rpx * 3.4 * glowScaleFactor, 24);
+    
     glowDiv.style.width = glowSize + 'px';
     glowDiv.style.height = glowSize + 'px';
     glowDiv.style.left = '50%';
     glowDiv.style.top = '50%';
     glowDiv.style.transform = 'translate(-50%,-50%)';
     glowDiv.style.opacity = glow ? 0.8 : 0.0;
-    glowDiv.style.filter = glow ? `blur(${2.5 * glowScaleFactor}px)` : 'none';
-    glowDiv.style.background = cfg.glowColor || DEFAULTS.glowColor;
-    glowDiv.style.mixBlendMode = 'screen';
+    glowDiv.style.pointerEvents = 'none';
     glowDiv.style.animation = `stars-glow ${duration}s ease-in-out ${negDelay}s infinite`;
+    glowDiv.style.mixBlendMode = 'screen';
+
+    // --- OTTIMIZZAZIONE CRITICA PER MOBILE ---
+    if (isMobile()) {
+        // Su mobile usiamo Radial Gradient (zero costo GPU) invece del Blur Filter SVG
+        glowDiv.style.filter = 'none'; 
+        const c = cfg.glowColor || DEFAULTS.glowColor;
+        // Crea un alone sfumato tramite CSS background
+        glowDiv.style.background = `radial-gradient(circle, ${c} 0%, rgba(0,0,0,0) 70%)`;
+    } else {
+        // Desktop: Blur standard (più bello ma più pesante)
+        glowDiv.style.filter = glow ? `blur(${2.5 * glowScaleFactor}px)` : 'none';
+        glowDiv.style.background = cfg.glowColor || DEFAULTS.glowColor;
+    }
 
     const svg = createSVGStar(Rpx, rpx, cfg.starColor || DEFAULTS.starColor, glow);
     svg.style.position = 'relative';
@@ -160,6 +189,8 @@
     root.style.pointerEvents = "none";
     root.style.zIndex = "0";
     root.style.overflow = "hidden";
+    // Layer hardware per evitare repaint dell'intera pagina
+    root.style.transform = "translateZ(0)"; 
 
     ensureDefs(root);
     root.innerHTML = '';
@@ -167,11 +198,14 @@
     const placements = [];
     const ww = window.innerWidth;
     const hh = window.innerHeight;
-    let total = cfg.count;
+    
+    // Se è mobile, usa il conteggio ridotto
+    let baseCount = isMobile() ? (cfg.mobileCount || 20) : cfg.count;
+    let total = baseCount;
 
     if (cfg.responsiveCount) {
       const area = (ww * hh) / (1366 * 768);
-      total = Math.round(cfg.count * clamp(Math.sqrt(area), 0.6, 1.6));
+      total = Math.round(baseCount * clamp(Math.sqrt(area), 0.6, 1.6));
     }
 
     const maxAttemptsPerStar = 60;
@@ -227,21 +261,6 @@
 
       placeStar(root, left, top, R, r, dur, delay, opacity, glow, angle);
     }
-
-    if (cfg.debug) {
-      const info = document.createElement('div');
-      info.style.position = 'fixed';
-      info.style.right = '12px';
-      info.style.bottom = '12px';
-      info.style.zIndex = '99999';
-      info.style.background = 'rgba(0,0,0,0.6)';
-      info.style.color = '#fff';
-      info.style.padding = '8px 10px';
-      info.style.borderRadius = '6px';
-      info.style.fontSize = '12px';
-      info.textContent = `STARS debug: ${placements.length} stars`;
-      root.appendChild(info);
-    }
   }
 
   const STARS = {
@@ -251,21 +270,23 @@
     },
     setConfig: function(newCfg) {
       this.config = Object.assign({}, this.config, newCfg);
-      this.config.count = Math.max(0, Math.round(this.config.count || DEFAULTS.count));
-      this.config.minSize = Math.max(1, this.config.minSize || DEFAULTS.minSize);
-      this.config.maxSize = Math.max(this.config.minSize, this.config.maxSize || DEFAULTS.maxSize);
-      this.config.minDuration = Math.max(0.5, this.config.minDuration || DEFAULTS.minDuration);
-      this.config.maxDuration = Math.max(this.config.minDuration, this.config.maxDuration || DEFAULTS.maxDuration);
       generateStars(this.config);
     },
     init: function() {
       generateStars(this.config);
+      
       let t;
+      // Memorizza larghezza per evitare reload su scroll mobile (dove cambia solo l'altezza per la barra URL)
+      let lastWidth = window.innerWidth; 
+
       window.addEventListener('resize', function() {
+        if (window.innerWidth === lastWidth) return; 
+        lastWidth = window.innerWidth;
+        
         clearTimeout(t);
         t = setTimeout(function() {
           generateStars(STARS.config);
-        }, 160);
+        }, 200);
       });
     }
   };
